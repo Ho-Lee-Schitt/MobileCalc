@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+
 #include "stdafx.h"
 #include "Customer.h"
 #include "Plan.h"
@@ -14,7 +15,6 @@ std::map<std::string, Plan> plans;
 
 
 // Helper function to get Mobile Plans.
-// TODO Validation for each line.
 int getPlans(std::string filepath)
 {
 	std::ifstream input;
@@ -38,6 +38,11 @@ int getPlans(std::string filepath)
 			lineDetails[i++] = tokens;
 			tokens = strtok(NULL, ",");
 		}
+		if (i < 10)
+		{
+			std::cerr << "Bad CSV file." << std::endl;
+			return(1);
+		}
 		i = 0;
 		/*plans[lineDetails[0]] = Plan(lineDetails[i++], 
 									std::stoi(lineDetails[i++]),
@@ -49,16 +54,24 @@ int getPlans(std::string filepath)
 									std::stof(lineDetails[i++]),
 									std::stof(lineDetails[i++]),
 									std::stof(lineDetails[i++]));*/
-		plans[lineDetails[0]] = Plan(lineDetails[0],
-									std::stoi(lineDetails[1]),
-									std::stoi(lineDetails[2]),
-									std::stoi(lineDetails[3]),
-									std::stoi(lineDetails[4]),
-									std::stof(lineDetails[5]),
-									std::stoi(lineDetails[6]),
-									std::stof(lineDetails[7]),
-									std::stof(lineDetails[8]),
-									std::stof(lineDetails[9]));
+		try
+		{
+			plans[lineDetails[0]] = Plan(lineDetails[0],
+										std::stoi(lineDetails[1]),
+										std::stoi(lineDetails[2]),
+										std::stoi(lineDetails[3]),
+										std::stoi(lineDetails[4]),
+										std::stof(lineDetails[5]),
+										std::stoi(lineDetails[6]),
+										std::stof(lineDetails[7]),
+										std::stof(lineDetails[8]),
+										std::stof(lineDetails[9]));
+		}
+		// Catch invalid csv data.
+		catch (std::invalid_argument& e) {
+			std::cerr << "Bad CSV file." << std::endl;
+			return(1);
+		}
 	}
 	return (0);
 }
@@ -98,8 +111,9 @@ int main()
 	int mins, texts;
 	//std::cout << "Please enter file to read from: ";
 	//std::cin >> filename;
-	//getPlans("PlanDetails.csv");
+	//if (!getPlans(filename))
 	if (!getPlans("PlanDetails.csv"))
+	//if (!getPlans("BadPlan.csv"))
 	{
 		bool gotPlan = false;
 		while (!gotPlan)
