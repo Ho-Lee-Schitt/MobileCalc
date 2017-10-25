@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+// Customer Class
 class Customer
 {
 private:
