@@ -11,6 +11,7 @@ Customer::Customer(std::string Plan, int mins, int texts)
 	textsUsed = texts;
 };
 
+// Calculate Customer Bill
 float Customer::calculateBill()
 {
 	float customerBill = 0;
