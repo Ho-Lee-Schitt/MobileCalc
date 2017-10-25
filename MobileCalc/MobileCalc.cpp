@@ -10,9 +10,11 @@
 #include <stdio.h>
 #include <tchar.h>
 
-
 std::map<std::string, Plan> plans;
 
+
+// Helper function to get Mobile Plans.
+// TODO Validation for each line.
 int getPlans(std::string filepath)
 {
 	std::ifstream input;
@@ -61,30 +63,70 @@ int getPlans(std::string filepath)
 	return (0);
 }
 
+// Validator function to validate string is a given type.
+template <class T>
+T read_input(std::string message)
+{
+	T input = -1;
+	bool valid = false;
+	do
+	{
+		std::cout << message << std::flush;
+		std::cin >> input;
+		if (std::cin.good() && input >= 0)
+		{
+			//everything went well, we'll get out of the loop and return the value
+			valid = true;
+		}
+		else
+		{
+			//something went wrong, we reset the buffer's state to good
+			std::cin.clear();
+			//and empty it
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Invalid input. " << std::endl;
+		}
+	} while (!valid);
+
+	return (input);
+}
+
 
 int main()
 {
-	std::string filename, planname, mins, texts;
+	std::string filename, planname;
+	int mins, texts;
 	//std::cout << "Please enter file to read from: ";
 	//std::cin >> filename;
 	//getPlans("PlanDetails.csv");
 	if (!getPlans("PlanDetails.csv"))
 	{
-		std::cout << "Please enter the Customer's Plan name: ";
-		std::cin >> planname;
+		bool gotPlan = false;
+		while (!gotPlan)
+		{
+			std::cout << "Please enter the Customer's Plan name: ";
+			std::cin >> planname;
 
-		std::cout << "Please enter the Customer's used minutes: ";
-		std::cin >> mins;
+			if (plans.find(planname) != plans.end())
+			{
+				gotPlan = true;
+			}
+			else
+			{
+				std::cout << "Plan not found." << std::endl;
+			}
+		}
 
-		std::cout << "Please enter the Customer's used texts: ";
-		std::cin >> texts;
+		mins = read_input<int>("Please enter the Customer's used minutes: ");
 
-		Customer newCustomer = Customer(planname, std::stoi(mins), std::stoi(texts));
+		texts = read_input<int>("Please enter the Customer's used texts: ");
 
-		std::cout << "The customer's bill is: £" << newCustomer.calculateBill() << std::endl;
+		Customer newCustomer = Customer(planname, mins, texts);
+
+		std::cout << "The customer's bill is: \x9C" << newCustomer.calculateBill() << std::endl;
 	}
-
-	std::cin >> filename;
+	
+	system("pause");
 	return 0;
 }
 
