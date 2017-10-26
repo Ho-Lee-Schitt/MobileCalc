@@ -29,7 +29,7 @@ int getPlans(std::string filepath)
 	char *tokens = NULL;
 	while (input >> line) {
 		// std::cout << line << std::endl;
-		std::array<std::string, 10> lineDetails;
+		std::array<std::string, 12> lineDetails;
 		tokens = strtok((char *)line.c_str(), ",");
 		int i = 0;
 		while (tokens)
@@ -38,13 +38,13 @@ int getPlans(std::string filepath)
 			lineDetails[i++] = tokens;
 			tokens = strtok(NULL, ",");
 		}
-		if (i < 10)
+		if (i != lineDetails.size())
 		{
 			std::cerr << "Bad CSV file." << std::endl;
 			return(1);
 		}
 		i = 0;
-		/*plans[lineDetails[0]] = Plan(lineDetails[i++], 
+		/*plans[lineDetails[0]] = Plan(lineDetails[i++],
 									std::stoi(lineDetails[i++]),
 									std::stoi(lineDetails[i++]),
 									std::stoi(lineDetails[i++]),
@@ -61,11 +61,13 @@ int getPlans(std::string filepath)
 										std::stoi(lineDetails[2]),
 										std::stoi(lineDetails[3]),
 										std::stoi(lineDetails[4]),
-										std::stof(lineDetails[5]),
-										std::stoi(lineDetails[6]),
-										std::stof(lineDetails[7]),
+										std::stoi(lineDetails[5]),
+										std::stof(lineDetails[6]),
+										std::stoi(lineDetails[7]),
 										std::stof(lineDetails[8]),
-										std::stof(lineDetails[9]));
+										std::stof(lineDetails[9]),
+										std::stof(lineDetails[10]),
+										std::stof(lineDetails[11]));
 		}
 		// Catch invalid csv data.
 		catch (std::invalid_argument& e) {
@@ -108,7 +110,7 @@ T read_input(std::string message)
 int main()
 {
 	std::string filename, planname;
-	int mins, texts;
+	int mins, texts, data;
 	//std::cout << "Please enter file to read from: ";
 	//std::cin >> filename;
 	//if (!getPlans(filename))
@@ -132,16 +134,13 @@ int main()
 		}
 
 		mins = read_input<int>("Please enter the Customer's used minutes: ");
-
 		texts = read_input<int>("Please enter the Customer's used texts: ");
+		data = read_input<int>("Please enter the Customer's used data (In MBs): ");
 
-		Customer newCustomer = Customer(planname, mins, texts);
-
+		Customer newCustomer = Customer(planname, mins, texts, data);
 		std::cout << "The customer's bill is: \x9C" << newCustomer.calculateBill() << std::endl;
 	}
-	
+
 	system("pause");
 	return 0;
 }
-
-

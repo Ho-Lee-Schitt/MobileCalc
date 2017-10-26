@@ -4,11 +4,12 @@
 
 extern std::map<std::string, Plan> plans;
 
-Customer::Customer(std::string Plan, int mins, int texts)
+Customer::Customer(std::string Plan, int mins, int texts, int data)
 {
 	planType = Plan;
 	minutesUsed = mins;
 	textsUsed = texts;
+	dataUsed = data;
 };
 
 // Calculate Customer Bill
@@ -19,7 +20,7 @@ float Customer::calculateBill()
 
 	// Calculate Calls
 	int remainingMins = minutesUsed;
-	if (remainingMins > custplan.includedMins) 
+	if (remainingMins > custplan.includedMins)
 	{
 		remainingMins -= custplan.includedMins;
 		for (int i = 0; i < custplan.tiers.size(); i++)
@@ -46,6 +47,14 @@ float Customer::calculateBill()
 	{
 
 		customerBill += ((remainingTexts - custplan.includedTexts) * custplan.followOnRateTexts);
+	}
+
+	// Calculate Data
+	int remainingData = dataUsed;
+	if (remainingData > custplan.includedData)
+	{
+
+		customerBill += ((remainingData - custplan.includedData) * custplan.followOnRateData);
 	}
 
 	customerBill += custplan.baseCost;
