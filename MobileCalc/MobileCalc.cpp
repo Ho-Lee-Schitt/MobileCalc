@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+#include <limits>
 
 #include "stdafx.h"
 #include "Customer.h"
@@ -10,6 +11,7 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <string.h>
 
 std::map<std::string, Plan> plans;
 
@@ -112,7 +114,7 @@ int main()
 	//std::cout << "Please enter file to read from: ";
 	//std::cin >> filename;
 	//if (!getPlans(filename))
-	if (!getPlans("PlanDetails.csv"))
+	if (!getPlans("C:\\Users\\hughesn\\Documents\\Dev\\MobileCalc\\MobileCalc\\PlanDetails.csv"))
 	//if (!getPlans("BadPlan.csv"))
 	{
 		bool gotPlan = false;
