@@ -5,7 +5,7 @@
 #include <fstream>
 #include <limits>
 
-#include "stdafx.h"
+// #include "stdafx.h"
 #include "Customer.h"
 #include "Plan.h"
 
@@ -46,7 +46,7 @@ int getPlans(std::string filepath)
 			return(1);
 		}
 		i = 0;
-		/*plans[lineDetails[0]] = Plan(lineDetails[i++], 
+		/*plans[lineDetails[0]] = Plan(lineDetails[i++],
 									std::stoi(lineDetails[i++]),
 									std::stoi(lineDetails[i++]),
 									std::stoi(lineDetails[i++]),
@@ -141,9 +141,7 @@ int main()
 
 		std::cout << "The customer's bill is: \x9C" << newCustomer.calculateBill() << std::endl;
 	}
-	
+
 	system("pause");
 	return 0;
 }
-
-
