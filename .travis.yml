@@ -1,6 +1,6 @@
 # blocklist
 branches:
-  except:
+  only:
   - /travis.*$/
 
 language: cpp
